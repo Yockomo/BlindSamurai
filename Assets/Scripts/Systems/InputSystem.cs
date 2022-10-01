@@ -49,7 +49,7 @@ namespace Systems
             var vertical = Grounded ? Input.GetAxis(GlobalAxis.VerticalAxis) : 0;
             var horizontal = Input.GetAxis(GlobalAxis.HorizontalAxis);
 
-            Movement = new Vector2(vertical, horizontal);
+            Movement = new Vector2(horizontal, vertical);
         }
 
         private void DashInputs()
