@@ -58,7 +58,9 @@ namespace Systems
                 Dash = 1;
             else if (Input.GetKeyDown(KeyCode.Q))
                 Dash = -1;
-        }
+            else
+                Dash = 0;
+            }
 
         private void HandleActionInputs()
         {
