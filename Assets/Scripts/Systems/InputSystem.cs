@@ -14,7 +14,7 @@ namespace Systems
         [SerializeField] private KeyCode fire2Key = KeyCode.Mouse1;
         [SerializeField] private KeyCode grenadeKey = KeyCode.F;
         [SerializeField] private KeyCode healKey = KeyCode.V;
-
+        public bool grounded;
         public Vector2 Movement {get; private set;}
         public bool Grounded { get; private set; }
         public float Dash { get; private set; }
@@ -36,6 +36,7 @@ namespace Systems
             var raycastHit = new RaycastHit2D[]{new RaycastHit2D()};
             Physics2D.CircleCastNonAlloc(transform.position, radius, Vector2.down, raycastHit, maxDistance,groundLayer);
             Grounded = raycastHit[0].collider != null;
+            grounded = Grounded;
         }
         
         private void HandleMovementInputs()

@@ -8,19 +8,16 @@ public class FieldOfView : MonoBehaviour
     
     private Mesh fieldOfViewMesh;
 
-    private Vector3[] viewVertices = new Vector3[3];
-    private Vector2[] viewUv = new Vector2[3];
-    private int[] viewTriangles = new int[3];
+    private Vector3[] viewVertices;
+    private Vector2[] viewUv;
+    private int[] viewTriangles;
     
     private void Start()
     {
         fieldOfViewMesh = new Mesh();
         GetComponent<MeshFilter>().mesh = fieldOfViewMesh;
-        
         Whatever();
-        //
-        // ConfigureMesh();
-        
+
         fieldOfViewMesh.vertices = viewVertices;
         fieldOfViewMesh.uv = viewUv;
         fieldOfViewMesh.triangles = viewTriangles;
@@ -42,6 +39,7 @@ public class FieldOfView : MonoBehaviour
         
         int vertexIndex = 1;
         int triangleIndex = 0;
+        
         for (int i = 0; i < rayCount; i++)
         {
             var vertex = origin + GetVectorFromAngle(angle) * radius;
@@ -65,16 +63,5 @@ public class FieldOfView : MonoBehaviour
     {
         float angleRad = angle * (Mathf.PI / 180f);
         return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
-    }
-
-    private void ConfigureMesh()
-    {
-        viewVertices[0] = new Vector3(0, 0);
-        viewVertices[1] = new Vector3(0, radius);
-        viewVertices[2] = new Vector3(radius, radius);
-
-        viewTriangles[0] = 0;
-        viewTriangles[1] = 1;
-        viewTriangles[2] = 2;
     }
 }
