@@ -12,12 +12,12 @@ TagManager:
   - Water
   - UI
   - Ground
-  - Mask
+  - StencilLayer_1
+  - StencilLayer_2
+  - 
   - BehindMask
+  - Mask
   - Black
-  - 
-  - 
-  - 
   - 
   - 
   - 
@@ -40,4 +40,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Units_Sorting_Layer
+    uniqueID: 2305222331
+    locked: 0
+  - name: BackGround
+    uniqueID: 3225145393
     locked: 0
