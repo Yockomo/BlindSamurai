@@ -47,7 +47,7 @@ namespace Systems
 
         private void MovementInputs()
         {
-            var vertical = Grounded ? Input.GetAxis(GlobalAxis.VerticalAxis) : 0;
+            var vertical = Input.GetKeyDown(KeyCode.W) ? 1 : 0;
             var horizontal = Input.GetAxis(GlobalAxis.HorizontalAxis);
 
             Movement = new Vector2(horizontal, vertical);
@@ -61,7 +61,7 @@ namespace Systems
                 Dash = -1;
             else
                 Dash = 0;
-            }
+        }
 
         private void HandleActionInputs()
         {
