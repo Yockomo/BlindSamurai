@@ -29,11 +29,10 @@ public class UnitLight : MonoBehaviour
 
     public void TurnOff()
     {
-        gameObject.SetActive(false);
-        transform.parent = null;
         sequence.Kill();
         transform.localScale = startScaleValue;
         OnTurnOffAction?.Invoke(this);
+        gameObject.SetActive(false);
     }
 
     public void ScaleUp()
@@ -50,6 +49,7 @@ public class UnitLight : MonoBehaviour
     {
         sequence = DOTween.Sequence();
         sequence.Append(transform.DOScale(scaleMaxValue, timeToScale));
-        sequence.SetLoops(-1, LoopType.Restart);
+        sequence.Append(transform.DOScale(startScaleValue, timeToScale));
+        sequence.SetLoops(-1, LoopType.Yoyo);
     }
 }
