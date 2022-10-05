@@ -7,18 +7,18 @@ namespace Units
         [SerializeField] private UnitLight lights;
         
         private UnitLight unitLight;
-
+        
         private void OnEnable()
         {
             var light = Instantiate(lights);
             SetUnitLight(light);
         }
-
+        
         private void OnDisable()
         {
             ResetUnitLight();
         }
-
+        
         public void SetUnitLight(UnitLight light)
         {
             unitLight = light;
@@ -26,7 +26,7 @@ namespace Units
             unitLight.transform.localPosition = Vector3.zero;
             unitLight.TurnOn();
         }
-
+        
         private void ResetUnitLight()
         {
             unitLight.TurnOff();
