@@ -21,15 +21,6 @@ public class PlatformerMovement : MonoBehaviour
 
 	private void Update()
 	{
-		if (playerStates.IsJumping)
-		{
-			Jump();
-		}
-		else if (playerStates.IsWallJumping)
-		{
-			WallJump(playerStates.LastWallJumpDir);
-		}
-
 		#region GRAVITY
 		//Higher gravity if we've released the jump input or are falling
 		if (playerStates.IsSliding)
@@ -63,6 +54,15 @@ public class PlatformerMovement : MonoBehaviour
 
     private void FixedUpdate()
 	{
+		if (playerStates.IsJumping)
+		{
+			Jump();
+		}
+		else if (playerStates.IsWallJumping)
+		{
+			WallJump(playerStates.LastWallJumpDir);
+		}
+
 		//Handle Run
 		if (playerStates.IsWallJumping)
 			Run(moveData.wallJumpRunLerp);

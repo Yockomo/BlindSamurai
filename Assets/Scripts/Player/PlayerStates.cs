@@ -21,34 +21,38 @@ namespace Player
 		[SerializeField] private InputSystem inputSystem;
 		[SerializeField] private PlayerMoveData moveData;
 
-		public bool IsFacingRight { get; private set; }
-		public bool IsJumping { get; private set; }
-		public bool IsWallJumping { get; private set; }
-		public bool IsSliding { get; private set; }
+		public bool IsFacingRight;
+		public bool IsJumping;
+		public bool IsWallJumping;
+		public bool IsSliding;
 
-		public float LastOnGroundTime { get; private set; }
-		public float LastOnWallTime { get; private set; }
-		public float LastOnWallRightTime { get; private set; }
-		public float LastOnWallLeftTime { get; private set; }
+		public float LastOnGroundTime;
+		public float LastOnWallTime;
+		public float LastOnWallRightTime;
+		public float LastOnWallLeftTime;
 
 		//Jump
-		public float LastPressedJumpTime { get; private set; }
+		public float LastPressedJumpTime;
 
-		public bool IsJumpCut { get; private set; }
-		public bool IsJumpFalling { get; private set; }
+		public bool IsJumpCut;
+		public bool IsJumpFalling;
 
-		public float MovementDirection { get; private set; }
+		public float MovementDirection;
 
 		//Wall Jump
-		public float WallJumpStartTime { get; private set; }
-		public int LastWallJumpDir { get; private set; }
+		public float WallJumpStartTime;
+		public int LastWallJumpDir;
 
-		private Rigidbody rigidBody;
+		private Rigidbody2D rigidBody;
+
+        private void Awake()
+        {
+			rigidBody = GetComponent<Rigidbody2D>();
+		}
 
         private void Start()
         {
 			IsFacingRight = true;
-			rigidBody = GetComponent<Rigidbody>();
 		}
 
 
@@ -123,7 +127,7 @@ namespace Player
 
 		private void CheckJumps()
         {
-			if (IsJumping && rigidBody.velocity.y < 0)
+			if (IsJumping && LastPressedJumpTime < 0)
 			{
 				IsJumping = false;
 
@@ -155,6 +159,7 @@ namespace Player
 				LastPressedJumpTime = 0;
 				LastOnGroundTime = 0;
 			}
+
 			//WALL JUMP
 			else if (CanWallJump() && LastPressedJumpTime > 0)
 			{
@@ -172,19 +177,18 @@ namespace Player
 			}
 		}
 
-		#region INPUT CALLBACKS
-		//Methods which whandle input detected in Update()
-		public void OnJumpInput()
-		{
-			LastPressedJumpTime = moveData.jumpInputBufferTime;
-		}
+			#region INPUT CALLBACKS
+			public void OnJumpInput()
+			{
+				LastPressedJumpTime = moveData.jumpInputBufferTime;
+			}
 
-		public void OnJumpUpInput()
-		{
-			if (CanJumpCut() || CanWallJumpCut())
-				IsJumpCut = true;
-		}
-		#endregion
+			public void OnJumpUpInput()
+			{
+				if (CanJumpCut() || CanWallJumpCut())
+					IsJumpCut = true;
+			}
+			#endregion
 
 		#region CHECK METHODS
 		private bool CanJump()
