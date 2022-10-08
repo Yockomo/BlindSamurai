@@ -386,7 +386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.7, y: -2.94, z: -10}
+  m_LocalPosition: {x: -13.7, y: -4.2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -537,7 +537,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638254869}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.7, y: -2.94, z: -10}
+  m_LocalPosition: {x: -13.7, y: -4.2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1610,10 +1610,10 @@ GameObject:
   - component: {fileID: 2037771878}
   - component: {fileID: 2037771877}
   - component: {fileID: 2037771881}
-  - component: {fileID: 2037771882}
   - component: {fileID: 2037771883}
   - component: {fileID: 2037771884}
   - component: {fileID: 2037771885}
+  - component: {fileID: 2037771886}
   m_Layer: 8
   m_Name: Hero
   m_TagString: Untagged
@@ -1718,7 +1718,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037771876}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.7, y: -2.94, z: 0}
+  m_LocalPosition: {x: -13.7, y: -4.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1748,25 +1748,6 @@ MonoBehaviour:
   grenadeKey: 102
   healKey: 118
   grounded: 0
---- !u!114 &2037771882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037771876}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e5b01d0ca3996b4d9bace5810ff91ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 9
-  acceleration: 13
-  decceleration: 16
-  velPower: 0.96
-  jumpForce: 8
-  fallGravityMultiplaier: 2
-  inputSystem: {fileID: 2037771881}
 --- !u!114 &2037771883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1796,15 +1777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveData: {fileID: 11400000, guid: eb4294b74f58e3f4499fce3e3944631e, type: 2}
-  inputSystem: {fileID: 2037771881}
-  _groundCheckPoint: {fileID: 940069870}
-  _groundCheckSize: {x: 0.49, y: 0.03}
-  _frontWallCheckPoint: {fileID: 740946817}
-  _backWallCheckPoint: {fileID: 1589680463}
-  _wallCheckSize: {x: 0.5, y: 1}
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  playerStates: {fileID: 2037771886}
 --- !u!114 &2037771885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,6 +1791,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lights: {fileID: 4381141271663315448, guid: dd0a7d7dba479ff478addc6efb5ca995, type: 3}
+--- !u!114 &2037771886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037771876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc23d1f2de178b4fa8130b9a76246db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundCheckPoint: {fileID: 940069870}
+  _groundCheckSize: {x: 0.49, y: 0.03}
+  _frontWallCheckPoint: {fileID: 740946817}
+  _backWallCheckPoint: {fileID: 1589680463}
+  _wallCheckSize: {x: 0.5, y: 1}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  inputSystem: {fileID: 2037771881}
+  moveData: {fileID: 11400000, guid: eb4294b74f58e3f4499fce3e3944631e, type: 2}
 --- !u!1 &2054718573
 GameObject:
   m_ObjectHideFlags: 0

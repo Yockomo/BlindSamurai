@@ -14,7 +14,7 @@ namespace Systems
         [SerializeField] private KeyCode fire2Key = KeyCode.Mouse1;
         [SerializeField] private KeyCode grenadeKey = KeyCode.F;
         [SerializeField] private KeyCode healKey = KeyCode.V;
-        
+
         public bool Jump { get; private set; }
         public Vector2 Movement {get; private set;}
         public bool Grounded { get; private set; }
@@ -26,6 +26,8 @@ namespace Systems
         public bool Grenade { get; private set; }
         public bool Heal { get; private set; }
         
+
+
         private void Update()
         {
             CheckGrounded();

@@ -1,4 +1,5 @@
-﻿using Systems;
+﻿using System;
+using Systems;
 using UnityEngine;
 
 namespace Player
@@ -7,7 +8,6 @@ namespace Player
     {
 		[Header("Checks")]
 		[SerializeField] private Transform _groundCheckPoint;
-		//Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
 		[SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
 		[Space(5)]
 		[SerializeField] private Transform _frontWallCheckPoint;
@@ -21,27 +21,30 @@ namespace Player
 		[SerializeField] private InputSystem inputSystem;
 		[SerializeField] private PlayerMoveData moveData;
 
-		public bool IsFacingRight;
-		public bool IsJumping;
-		public bool IsWallJumping;
-		public bool IsSliding;
+		public bool IsFacingRight { get; private set; }
+		public bool IsJumping { get; private set; }
+		public bool IsWallJumping { get; private set; }
+		public bool IsSliding { get; private set; }
 
-		public float LastOnGroundTime;
-		public float LastOnWallTime;
-		public float LastOnWallRightTime;
-		public float LastOnWallLeftTime;
+		public float LastOnGroundTime { get; private set; }
+		public float LastOnWallTime { get; private set; }
+		public float LastOnWallRightTime { get; private set; }
+		public float LastOnWallLeftTime { get; private set; }
 
 		//Jump
-		public float LastPressedJumpTime;
+		public float LastPressedJumpTime { get; private set; }
 
-		public bool IsJumpCut;
-		public bool IsJumpFalling;
+		public bool IsJumpCut { get; private set; }
+		public bool IsJumpFalling { get; private set; }
 
-		public float MovementDirection;
+		public float MovementDirection { get; private set; }
 
 		//Wall Jump
-		public float WallJumpStartTime;
-		public int LastWallJumpDir;
+		public float WallJumpStartTime { get; private set; }
+		public int LastWallJumpDir { get; private set; }
+
+		public event Action OnJumpStateStart;
+		public event Action<int> OnWallJumpStateStart;
 
 		private Rigidbody2D rigidBody;
 
@@ -55,7 +58,6 @@ namespace Player
 			IsFacingRight = true;
 		}
 
-
         private void Update()
         {
 			UpdateTimers();
@@ -63,12 +65,10 @@ namespace Player
 			CheckCollisions();
 			CheckJumps();
 
-			#region SLIDE CHECKS
 			if (CanSlide() && ((LastOnWallLeftTime > 0 && MovementDirection < 0) || (LastOnWallRightTime > 0 && MovementDirection > 0)))
 				IsSliding = true;
 			else
 				IsSliding = false;
-			#endregion
 		}
 
 		private void UpdateTimers()
@@ -127,7 +127,7 @@ namespace Player
 
 		private void CheckJumps()
         {
-			if (IsJumping && LastPressedJumpTime < 0)
+			if (IsJumping && rigidBody.velocity.y < 0)
 			{
 				IsJumping = false;
 
@@ -143,9 +143,7 @@ namespace Player
 			if (LastOnGroundTime > 0 && !IsJumping && !IsWallJumping)
 			{
 				IsJumpCut = false;
-
-				if (!IsJumping)
-					IsJumpFalling = false;
+				IsJumpFalling = false;
 			}
 
 			//Jump
@@ -158,8 +156,9 @@ namespace Player
 
 				LastPressedJumpTime = 0;
 				LastOnGroundTime = 0;
-			}
 
+				OnJumpStateStart?.Invoke();
+			}
 			//WALL JUMP
 			else if (CanWallJump() && LastPressedJumpTime > 0)
 			{
@@ -174,21 +173,23 @@ namespace Player
 				LastOnGroundTime = 0;
 				LastOnWallRightTime = 0;
 				LastOnWallLeftTime = 0;
+
+				OnWallJumpStateStart?.Invoke(LastWallJumpDir);
 			}
 		}
 
-			#region INPUT CALLBACKS
-			public void OnJumpInput()
-			{
-				LastPressedJumpTime = moveData.jumpInputBufferTime;
-			}
+		#region INPUT CALLBACKS
+		public void OnJumpInput()
+		{
+			LastPressedJumpTime = moveData.jumpInputBufferTime;
+		}
 
-			public void OnJumpUpInput()
-			{
-				if (CanJumpCut() || CanWallJumpCut())
-					IsJumpCut = true;
-			}
-			#endregion
+		public void OnJumpUpInput()
+		{
+			if (CanJumpCut() || CanWallJumpCut())
+				IsJumpCut = true;
+		}
+		#endregion
 
 		#region CHECK METHODS
 		private bool CanJump()
