@@ -1,52 +1,49 @@
-using System.Collections;
-using Systems;
+using Player;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerDash : MonoBehaviour
+internal class PlayerDash
 {
-    [Header("Settings")]
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float dashTime;
-    [SerializeField] private float dashCooldown;
+        private Rigidbody2D rigidbody;
+        private PlayerMoveData dashData;
+        private PlayerStates playerStates;
 
-    [Header("References")] 
-    [SerializeField] private InputSystem playerInput;
+        private DashState dashState;
+        private Vector2 savedVelocity;
 
-    private Rigidbody2D playersRigidbody;
-    private bool isCooled = true;
-
-
-    private void Start()
-    {
-        playersRigidbody = GetComponent<Rigidbody2D>();
-    }
-
-    private void Update()
-    {
-        if (isCooled && playerInput.Dash != 0)
+        public PlayerDash(Rigidbody2D _rigidBody, PlayerMoveData _dashData, PlayerStates _playerStates)
         {
-            StartCoroutine(Dash(playerInput.Dash));
-        }    
-    }
+            rigidbody = _rigidBody;
+            dashData = _dashData;
+            playerStates = _playerStates;
+        }
 
-    private IEnumerator Dash(float direction)
-    {
-        isCooled = false;
-        float gravityScale = playersRigidbody.gravityScale;
-        SetGravityScale(0);
-        
-        playersRigidbody.velocity = new Vector2(direction * dashSpeed, 0f);
-        yield return new WaitForSeconds(dashTime);
-        
-        playersRigidbody.velocity = Vector2.zero;
-        SetGravityScale(gravityScale);
-        yield return new WaitForSeconds(dashCooldown);
-        isCooled = true;
-    }
+        public void Tick()
+        {
+            switch (dashState)
+            {
+                case DashState.Waiting:
+                    if (playerStates.IsDashing)
+                    {
+                        savedVelocity = new Vector2(rigidbody.velocity.x, 0);
+                        rigidbody.velocity = Vector2.zero;
+                        dashState = DashState.Dashing;
+                    }
+                    break;
 
-    private void SetGravityScale(float value)
-    {
-        playersRigidbody.gravityScale = value;
-    }
+                case DashState.Dashing:
+                    rigidbody.AddForce( new Vector2(playerStates.DashDirection * dashData.dashSpeed, 0));
+                    if (!playerStates.IsDashing)
+                    {
+                        rigidbody.velocity = savedVelocity;
+                        dashState = DashState.Waiting;
+                    }
+                    break;
+            }
+        }
+}
+
+public enum DashState
+{
+    Waiting,
+    Dashing,
 }

@@ -10,6 +10,7 @@ public class PlatformerMovement : MonoBehaviour
 
 	private GravityController gravityController;
 	private PlayerMove playerMove;
+	private PlayerDash playerDash;
 
     private void OnEnable()
     {
@@ -28,6 +29,7 @@ public class PlatformerMovement : MonoBehaviour
 		rigidBody = GetComponent<Rigidbody2D>();
 		gravityController = new GravityController(playerStates, moveData, rigidBody);
 		playerMove = new PlayerMove(moveData, playerStates, rigidBody);
+		playerDash = new PlayerDash(rigidBody, moveData, playerStates);
 	}
 
 	private void Update()
@@ -37,6 +39,8 @@ public class PlatformerMovement : MonoBehaviour
 
     private void FixedUpdate()
 	{
+		playerDash.Tick();
+
 		if (playerStates.IsWallJumping)
 			playerMove.Run(moveData.wallJumpRunLerp);
 		else

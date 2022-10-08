@@ -24,7 +24,7 @@ namespace Player
         private void UpdateGravity()
         {
 			//Higher gravity if we've released the jump input or are falling
-			if (playerStates.IsSliding)
+			if (playerStates.IsSliding || playerStates.IsDashing)
 			{
 				SetGravityScale(0);
 			}

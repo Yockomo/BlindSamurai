@@ -946,7 +946,7 @@ Transform:
   m_GameObject: {fileID: 1253840941}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -9.5199995, y: -3.77, z: 14.545057}
-  m_LocalScale: {x: 8.934607, y: 1, z: 1}
+  m_LocalScale: {x: 101.49, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1463806719}
@@ -1610,7 +1610,6 @@ GameObject:
   - component: {fileID: 2037771878}
   - component: {fileID: 2037771877}
   - component: {fileID: 2037771881}
-  - component: {fileID: 2037771883}
   - component: {fileID: 2037771884}
   - component: {fileID: 2037771885}
   - component: {fileID: 2037771886}
@@ -1748,22 +1747,6 @@ MonoBehaviour:
   grenadeKey: 102
   healKey: 118
   grounded: 0
---- !u!114 &2037771883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037771876}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f07f63808491a1546890a0035eeedde4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dashSpeed: 10
-  dashTime: 0.1
-  dashCooldown: 1
-  playerInput: {fileID: 2037771881}
 --- !u!114 &2037771884
 MonoBehaviour:
   m_ObjectHideFlags: 0

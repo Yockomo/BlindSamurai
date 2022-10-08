@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Systems;
 using UnityEngine;
 
@@ -42,11 +43,16 @@ namespace Player
 		//Wall Jump
 		public float WallJumpStartTime { get; private set; }
 		public int LastWallJumpDir { get; private set; }
+		
+		//Dash
+		public bool IsDashing { get; private set; }
+		public float DashDirection { get; private set; }
 
 		public event Action OnJumpStateStart;
 		public event Action<int> OnWallJumpStateStart;
 
 		private Rigidbody2D rigidBody;
+		private bool isDashCooled = true;
 
         private void Awake()
         {
@@ -89,13 +95,13 @@ namespace Player
 				CheckDirectionToFace(MovementDirection > 0);
 			}
 
-			if (inputSystem.Jump)
+			if (inputSystem.Dash != 0)
+			{
+				OnDashInput();
+			}
+			else if (inputSystem.Jump)
 			{
 				OnJumpInput();
-			}
-
-			if (inputSystem.Jump)
-			{
 				OnJumpUpInput();
 			}
 		}
@@ -179,16 +185,35 @@ namespace Player
 		}
 
 		#region INPUT CALLBACKS
-		public void OnJumpInput()
+		private void OnJumpInput()
 		{
 			LastPressedJumpTime = moveData.jumpInputBufferTime;
 		}
 
-		public void OnJumpUpInput()
+		private void OnJumpUpInput()
 		{
 			if (CanJumpCut() || CanWallJumpCut())
 				IsJumpCut = true;
 		}
+
+		private void OnDashInput()
+        {
+            if (isDashCooled)
+            {
+				DashDirection = inputSystem.Dash;
+				StartCoroutine(DashCooldownAsync());
+            }
+        }
+
+		private IEnumerator DashCooldownAsync()
+        {
+			isDashCooled = false;
+			IsDashing = true;
+			yield return new WaitForSeconds(moveData.dashTime);
+			IsDashing = false;
+			yield return new WaitForSeconds(moveData.dashCooldown);
+			isDashCooled = true;
+        }
 		#endregion
 
 		#region CHECK METHODS
