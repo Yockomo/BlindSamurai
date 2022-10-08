@@ -3,7 +3,12 @@ guid: ccc23d1f2de178b4fa8130b9a76246db
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _groundCheckPoint: {instanceID: 0}
+  - _frontWallCheckPoint: {instanceID: 0}
+  - _backWallCheckPoint: {instanceID: 0}
+  - inputSystem: {instanceID: 0}
+  - moveData: {fileID: 11400000, guid: eb4294b74f58e3f4499fce3e3944631e, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
