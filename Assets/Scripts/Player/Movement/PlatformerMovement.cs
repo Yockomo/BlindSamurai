@@ -40,13 +40,6 @@ public class PlatformerMovement : MonoBehaviour
     private void FixedUpdate()
 	{
 		playerDash.Tick();
-
-		if (playerStates.IsWallJumping)
-			playerMove.Run(moveData.wallJumpRunLerp);
-		else
-			playerMove.Run(1);
-
-		if (playerStates.IsSliding)
-			playerMove.Slide();
+		playerMove.Tick();
     }
 }

@@ -13,6 +13,7 @@ namespace Player
 			playerStates = _playerStates;
 			gravityData = _gravityData;
 			rigidBody = _rigidBody;
+			
 			SetGravityScale(gravityData.gravityScale);
 		}
 

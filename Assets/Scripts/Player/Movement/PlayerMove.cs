@@ -15,7 +15,18 @@ namespace Player
 			rigidBody = _rigidBody;
 		}
 
-		public void Run(float lerpAmount)
+		public void Tick()
+		{
+			if (playerStates.IsWallJumping)
+				Run(moveData.wallJumpRunLerp);
+			else
+				Run(1);
+			
+			if (playerStates.IsSliding)
+				Slide();
+		}
+		
+		private void Run(float lerpAmount)
 		{
 			//Calculate the direction we want to move in and our desired velocity
 			float targetSpeed = playerStates.MovementDirection * moveData.runMaxSpeed;
@@ -96,7 +107,7 @@ namespace Player
 			rigidBody.AddForce(force, ForceMode2D.Impulse);
 		}
 
-		public void Slide()
+		private void Slide()
 		{
 			//Works the same as the Run but only in the y-axis
 			//THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system

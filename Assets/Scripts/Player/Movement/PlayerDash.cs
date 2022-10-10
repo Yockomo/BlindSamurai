@@ -3,6 +3,8 @@ using UnityEngine;
 
 internal class PlayerDash
 {
+        private enum DashState { Waiting, Dashing,}
+
         private Rigidbody2D rigidbody;
         private PlayerMoveData dashData;
         private PlayerStates playerStates;
@@ -15,6 +17,8 @@ internal class PlayerDash
             rigidbody = _rigidBody;
             dashData = _dashData;
             playerStates = _playerStates;
+            
+            dashState = DashState.Waiting;
         }
 
         public void Tick()
@@ -40,10 +44,4 @@ internal class PlayerDash
                     break;
             }
         }
-}
-
-public enum DashState
-{
-    Waiting,
-    Dashing,
 }
