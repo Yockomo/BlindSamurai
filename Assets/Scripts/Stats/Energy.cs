@@ -16,7 +16,7 @@ namespace Stats
         {
             MaxEnergy = maxEnergy;
             currentEnergy = MaxEnergy;
-            RestorePerTick = energyRestoreSpeedInSeconds / 10;
+            RestorePerTick = energyRestoreSpeedInSeconds;
         }
 
         public bool TryUseEnergy(float energyCost)

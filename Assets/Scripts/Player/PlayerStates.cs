@@ -53,8 +53,8 @@ namespace Player
 		public float DashDirection { get; private set; }
 
 		// Energy use in fight
-		public bool IsFighting { get; private set; }
-		public bool Inactive { get; private set; }
+		public bool IsFighting;
+		public bool Inactive;
 
 		public event Action OnJumpStateStart;
 		public event Action<int> OnWallJumpStateStart;
@@ -158,7 +158,7 @@ namespace Player
 			}
 
 			//Jump
-			if (CanJump() && LastPressedJumpTime > 0)
+			if (CanJump())
 			{
 				IsJumping = true;
 				IsWallJumping = false;
@@ -171,7 +171,7 @@ namespace Player
 				OnJumpStateStart?.Invoke();
 			}
 			//WALL JUMP
-			else if (CanWallJump() && LastPressedJumpTime > 0)
+			else if (CanWallJump())
 			{
 				IsWallJumping = true;
 				IsJumping = false;
@@ -199,10 +199,7 @@ namespace Player
 		
 		private void HandleInactiveState()
 		{
-			Inactive = inputSystem.Dash == 0 
-			           && !inputSystem.Jump
-			           && !inputSystem.Fire1
-			           && !inputSystem.Fire2;
+			Inactive = !(IsDashing || IsJumping || IsWallJumping);
 		}
 		
 		#region INPUT CALLBACKS
@@ -248,17 +245,19 @@ namespace Player
 		#region CHECK METHODS
 		private bool CanJump()
 		{
-			var defaultCheck = LastOnGroundTime > 0 && !IsJumping;
-
+			var defaultCheck = LastOnGroundTime > 0 && !IsJumping && LastPressedJumpTime > 0;
+			
 			return IsFighting ? (defaultCheck && energy.TryUseEnergy(energyData.defaultJumpCost)) : defaultCheck;
 		}
 
 		private bool CanWallJump()
 		{
-			var defaultCheck = LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 &&
-			                   (!IsWallJumping ||
-			                    (LastOnWallRightTime > 0 && LastWallJumpDir == 1) ||
-			                    (LastOnWallLeftTime > 0 && LastWallJumpDir == -1));
+			var defaultCheck = LastPressedJumpTime > 0
+			                   && LastOnWallTime > 0
+			                   && LastOnGroundTime <= 0 
+			                   && (!IsWallJumping ||
+			                       (LastOnWallRightTime > 0 && LastWallJumpDir == 1) ||
+			                       (LastOnWallLeftTime > 0 && LastWallJumpDir == -1));
 			
 			return  IsFighting ? (defaultCheck && energy.TryUseEnergy(energyData.wallJumpCost)) : defaultCheck;
 		}

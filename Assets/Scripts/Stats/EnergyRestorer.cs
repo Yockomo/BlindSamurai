@@ -22,7 +22,7 @@ namespace Stats
 
         private void Update()
         {
-            if (ValidState() && !isRestoring)
+            if (ValidFightState() && !isRestoring)
             {
                 StartCoroutine(RestoreEnergy());
             }
@@ -32,18 +32,18 @@ namespace Stats
         {
             isRestoring = true;
             
-            while (ValidState() && !playersEnergy.IsMaxEnergy())
+            while (ValidFightState() && !playersEnergy.IsMaxEnergy())
             {
                 playersEnergy.RestoreEnergy(restorePerTick);
-                yield return new WaitForSeconds(restorePerTick);
+                yield return new WaitForSeconds(1);
             }
 
             isRestoring = false;
         }
-
-        private bool ValidState()
+        
+        private bool ValidFightState()
         {
-            return playerStates.IsFighting && playerStates.Inactive;
+            return playerStates.Inactive;
         }
     }
 }
