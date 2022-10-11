@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using Interfaces;
 using UnityEngine;
 
@@ -7,21 +6,17 @@ namespace Stats
 {
     public class Energy : IUiElement<float>
     {
-        private float maxEnergy;
-        private float currentEnergy;
-        private float energyRestoreSpeedInSeconds;
-
-        private float restorePerTick;
-        
+        public float MaxEnergy {get; private set; }
+        public float RestorePerTick { get; private set; }
         public event Action<float> OnValueChange;
-        
-        public bool Active {get; private set;}
 
+        private float currentEnergy;
+        
         public Energy(float maxEnergy, float energyRestoreSpeedInSeconds)
         {
-            this.maxEnergy = maxEnergy;
-            currentEnergy = maxEnergy;
-            restorePerTick = energyRestoreSpeedInSeconds / 10;
+            MaxEnergy = maxEnergy;
+            currentEnergy = MaxEnergy;
+            RestorePerTick = energyRestoreSpeedInSeconds / 10;
         }
 
         public bool TryUseEnergy(float energyCost)
@@ -41,21 +36,21 @@ namespace Stats
             return currentEnergy >= energyCost;
         }
 
-        public IEnumerator ChangeActiveState()
+        public bool IsMaxEnergy()
         {
-            Active = !Active;
-            
-            if (Active)
-            {
-                while (!Active && currentEnergy < maxEnergy)
-                {
-                    currentEnergy += restorePerTick;
-                    OnValueChange?.Invoke(currentEnergy);
-                    yield return new WaitForSeconds(restorePerTick);
-                }
-
-                currentEnergy = Mathf.Min(currentEnergy, maxEnergy);
-            }
+            return  MaxEnergy == currentEnergy;
+        }
+        
+        public void RestoreEnergy(float value)
+        {
+            currentEnergy += value;
+            ValidateEnergy();
+        }
+        
+        private void ValidateEnergy()
+        {
+            currentEnergy = Mathf.Min(currentEnergy, MaxEnergy);
+            OnValueChange?.Invoke(currentEnergy);
         }
     }
 }

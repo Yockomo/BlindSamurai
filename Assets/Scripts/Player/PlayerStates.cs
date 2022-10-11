@@ -4,6 +4,7 @@ using ScriptableObjects;
 using Stats;
 using Systems;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
@@ -53,7 +54,8 @@ namespace Player
 
 		// Energy use in fight
 		public bool IsFighting { get; private set; }
-		
+		public bool Inactive { get; private set; }
+
 		public event Action OnJumpStateStart;
 		public event Action<int> OnWallJumpStateStart;
 
@@ -61,25 +63,22 @@ namespace Player
 		private Energy energy;
 		private bool isDashCooled = true;
 
-        private void Awake()
-        {
+		[Inject]
+		private void Construct(Energy energy)
+		{
 			rigidBody = GetComponent<Rigidbody2D>();
-			energy = new Energy(energyData.maxEnergy, energyData.energyRestoreSpeedInSeconds);
+			this.energy = energy;
 			IsFacingRight = true;
-        }
+		}
 
-        private void Update()
+		private void Update()
         {
 			UpdateTimers();
 			HandleInputs();
 			CheckCollisions();
 			CheckJumps();
-
-			if (CanSlide() && ((LastOnWallLeftTime > 0 && MovementDirection < 0) || (LastOnWallRightTime > 0 && MovementDirection > 0)))
-				IsSliding = true;
-			else
-				IsSliding = false;
-		}
+			CheckSlide();
+        }
 
 		private void UpdateTimers()
         {
@@ -108,7 +107,9 @@ namespace Player
 				OnJumpInput();
 				OnJumpUpInput();
 			}
-		}
+
+			HandleInactiveState();
+        }
 
 		private void CheckCollisions()
         {
@@ -188,6 +189,22 @@ namespace Player
 			}
 		}
 
+		private void CheckSlide()
+		{
+			if (CanSlide() && ((LastOnWallLeftTime > 0 && MovementDirection < 0) || (LastOnWallRightTime > 0 && MovementDirection > 0)))
+				IsSliding = true;
+			else
+				IsSliding = false;
+		}
+		
+		private void HandleInactiveState()
+		{
+			Inactive = inputSystem.Dash == 0 
+			           && !inputSystem.Jump
+			           && !inputSystem.Fire1
+			           && !inputSystem.Fire2;
+		}
+		
 		#region INPUT CALLBACKS
 		private void OnJumpInput()
 		{

@@ -4,11 +4,6 @@ namespace Systems
 {
     public class InputSystem : MonoBehaviour
     {
-        [Header("Grounded Controls")]
-        [SerializeField] private float radius;
-        [SerializeField] private float maxDistance;
-        [SerializeField] private LayerMask groundLayer;
-
         [Header("Hotkeys Settings"), Space(10)]
         [SerializeField] private KeyCode fire1Key = KeyCode.Mouse0;
         [SerializeField] private KeyCode fire2Key = KeyCode.Mouse1;
@@ -17,9 +12,8 @@ namespace Systems
 
         public bool Jump { get; private set; }
         public Vector2 Movement {get; private set;}
-        public bool Grounded { get; private set; }
-        public bool grounded;
         public float Dash { get; private set; }
+        
         
         public bool Fire1 { get; private set; }
         public bool Fire2 { get; private set; }
@@ -30,19 +24,10 @@ namespace Systems
 
         private void Update()
         {
-            CheckGrounded();
             HandleMovementInputs();
             HandleActionInputs();
         }
 
-        private void CheckGrounded()
-        {
-            var raycastHit = new RaycastHit2D[]{new RaycastHit2D()};
-            Physics2D.CircleCastNonAlloc(transform.position, radius, Vector2.down, raycastHit, maxDistance,groundLayer);
-            Grounded = raycastHit[0].collider != null;
-            grounded = Grounded;
-        }
-        
         private void HandleMovementInputs()
         {
             Jump = Input.GetKeyDown(KeyCode.Space);
