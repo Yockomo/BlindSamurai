@@ -1,4 +1,5 @@
 using Player;
+using ScriptableObjects;
 using UnityEngine;
 
 public class PlatformerMovement : MonoBehaviour

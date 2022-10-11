@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using ScriptableObjects;
+using Stats;
 using Systems;
 using UnityEngine;
 
@@ -21,6 +23,7 @@ namespace Player
 		[Header("References")]
 		[SerializeField] private InputSystem inputSystem;
 		[SerializeField] private PlayerMoveData moveData;
+		[SerializeField] private PlayerEnergyData energyData;
 
 		public bool IsFacingRight { get; private set; }
 		public bool IsJumping { get; private set; }
@@ -48,21 +51,22 @@ namespace Player
 		public bool IsDashing { get; private set; }
 		public float DashDirection { get; private set; }
 
+		// Energy use in fight
+		public bool IsFighting { get; private set; }
+		
 		public event Action OnJumpStateStart;
 		public event Action<int> OnWallJumpStateStart;
 
 		private Rigidbody2D rigidBody;
+		private Energy energy;
 		private bool isDashCooled = true;
 
         private void Awake()
         {
 			rigidBody = GetComponent<Rigidbody2D>();
-		}
-
-        private void Start()
-        {
+			energy = new Energy(energyData.maxEnergy, energyData.energyRestoreSpeedInSeconds);
 			IsFacingRight = true;
-		}
+        }
 
         private void Update()
         {
@@ -198,10 +202,18 @@ namespace Player
 
 		private void OnDashInput()
         {
-            if (isDashCooled)
+	        if (isDashCooled)
             {
-				DashDirection = inputSystem.Dash;
-				StartCoroutine(DashCooldownAsync());
+	            if (IsFighting)
+	            {
+		            var inAir = LastOnGroundTime > 0;
+		            var dashCost = inAir ? energyData.dashCost : energyData.airDashCost;
+		            if (!energy.TryUseEnergy(dashCost))
+			            return;
+	            }
+		            
+	            DashDirection = inputSystem.Dash;
+	            StartCoroutine(DashCooldownAsync());
             }
         }
 
@@ -219,13 +231,19 @@ namespace Player
 		#region CHECK METHODS
 		private bool CanJump()
 		{
-			return LastOnGroundTime > 0 && !IsJumping;
+			var defaultCheck = LastOnGroundTime > 0 && !IsJumping;
+
+			return IsFighting ? (defaultCheck && energy.TryUseEnergy(energyData.defaultJumpCost)) : defaultCheck;
 		}
 
 		private bool CanWallJump()
 		{
-			return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && (!IsWallJumping ||
-				 (LastOnWallRightTime > 0 && LastWallJumpDir == 1) || (LastOnWallLeftTime > 0 && LastWallJumpDir == -1));
+			var defaultCheck = LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 &&
+			                   (!IsWallJumping ||
+			                    (LastOnWallRightTime > 0 && LastWallJumpDir == 1) ||
+			                    (LastOnWallLeftTime > 0 && LastWallJumpDir == -1));
+			
+			return  IsFighting ? (defaultCheck && energy.TryUseEnergy(energyData.wallJumpCost)) : defaultCheck;
 		}
 
 		private bool CanJumpCut()
@@ -240,10 +258,7 @@ namespace Player
 
 		public bool CanSlide()
 		{
-			if (LastOnWallTime > 0 && !IsJumping && !IsWallJumping && LastOnGroundTime <= 0)
-				return true;
-			else
-				return false;
+			return LastOnWallTime > 0 && !IsJumping && !IsWallJumping && LastOnGroundTime <= 0;
 		}
 
 		private void CheckDirectionToFace(bool isMovingRight)

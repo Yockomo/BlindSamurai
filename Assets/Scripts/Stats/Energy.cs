@@ -1,20 +1,25 @@
+using System;
 using System.Collections;
+using Interfaces;
 using UnityEngine;
 
 namespace Stats
 {
-    public class Energy: MonoBehaviour
+    public class Energy : IUiElement<float>
     {
-        [SerializeField] private float maxEnergy;
-        [SerializeField] private float currentEnergy;
-        [SerializeField] private float energyRestoreSpeedInSeconds;
+        private float maxEnergy;
+        private float currentEnergy;
+        private float energyRestoreSpeedInSeconds;
 
         private float restorePerTick;
         
+        public event Action<float> OnValueChange;
+        
         public bool Active {get; private set;}
 
-        private void Awake()
+        public Energy(float maxEnergy, float energyRestoreSpeedInSeconds)
         {
+            this.maxEnergy = maxEnergy;
             currentEnergy = maxEnergy;
             restorePerTick = energyRestoreSpeedInSeconds / 10;
         }
@@ -24,6 +29,7 @@ namespace Stats
             if (IsEnoughtEnergy(energyCost))
             {
                 currentEnergy -= energyCost;
+                OnValueChange?.Invoke(currentEnergy);
                 return true;
             }
 
@@ -35,25 +41,21 @@ namespace Stats
             return currentEnergy >= energyCost;
         }
 
-        public void ChangeActiveState()
+        public IEnumerator ChangeActiveState()
         {
             Active = !Active;
             
-            if (!Active)
+            if (Active)
             {
-                StartCoroutine(RestoreEnergyAsync());
-            }
-        }
+                while (!Active && currentEnergy < maxEnergy)
+                {
+                    currentEnergy += restorePerTick;
+                    OnValueChange?.Invoke(currentEnergy);
+                    yield return new WaitForSeconds(restorePerTick);
+                }
 
-        private IEnumerator RestoreEnergyAsync()
-        {
-            while (!Active && currentEnergy < maxEnergy)
-            {
-                currentEnergy += restorePerTick;
-                yield return new WaitForSeconds(restorePerTick);
+                currentEnergy = Mathf.Min(currentEnergy, maxEnergy);
             }
-
-            currentEnergy = Mathf.Min(currentEnergy, maxEnergy);
         }
     }
 }
