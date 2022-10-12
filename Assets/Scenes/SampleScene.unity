@@ -1152,10 +1152,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901600762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 218.65247, y: 247.34012, z: -4.5513234}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2141969762}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2431,7 +2432,6 @@ MonoBehaviour:
   inputSystem: {fileID: 2037771881}
   moveData: {fileID: 11400000, guid: eb4294b74f58e3f4499fce3e3944631e, type: 2}
   energyData: {fileID: 11400000, guid: 77cd9b5f908e47c4c9fa53937e66425d, type: 2}
-  IsFighting: 0
   Inactive: 0
 --- !u!114 &2037771887
 MonoBehaviour:
@@ -2752,6 +2752,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 901600763}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Interfaces;
 using ScriptableObjects;
 using Stats;
 using Systems;
@@ -8,7 +9,7 @@ using Zenject;
 
 namespace Player
 {
-    internal class PlayerStates : MonoBehaviour
+    internal class PlayerStates : MonoBehaviour, IHaveFightState
     {
 		[Header("Checks")]
 		[SerializeField] private Transform _groundCheckPoint;
@@ -53,7 +54,7 @@ namespace Player
 		public float DashDirection { get; private set; }
 
 		// Energy use in fight
-		public bool IsFighting;
+		public bool IsFighting {get; private set; }
 		public bool Inactive;
 
 		public event Action OnJumpStateStart;
@@ -71,6 +72,11 @@ namespace Player
 			IsFacingRight = true;
 		}
 
+		public void SetFighState(bool stateValue)
+		{
+			IsFighting = stateValue;
+		}
+		
 		private void Update()
         {
 			UpdateTimers();
@@ -304,5 +310,5 @@ namespace Player
 			Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
 		}
 		#endregion
-	}
+    }
 }
