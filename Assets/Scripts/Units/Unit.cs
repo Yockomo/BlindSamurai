@@ -26,10 +26,20 @@ namespace Units
         private void OnDisable()
         {
             OnFightEndEvent?.Invoke(this);
-            inFight = false;
+            if(inFight)
+                inFight = false;
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.TryGetComponent<PlayerStates>(out var playerStates) && inFight)
+            {
+                inFight = false;
+                OnFightEndEvent?.Invoke(this);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.TryGetComponent<PlayerStates>(out var playerStates) && !inFight)
             {

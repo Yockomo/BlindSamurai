@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Player
 {
-    internal class PlayerStates : MonoBehaviour, IHaveFightState
+    public class PlayerStates : MonoBehaviour, IHaveFightState
     {
 		[Header("Checks")]
 		[SerializeField] private Transform _groundCheckPoint;
@@ -55,6 +55,7 @@ namespace Player
 
 		// Energy use in fight
 		public bool IsFighting {get; private set; }
+		public bool fighting;
 		public bool Inactive;
 
 		public event Action OnJumpStateStart;
@@ -75,6 +76,7 @@ namespace Player
 		public void SetFighState(bool stateValue)
 		{
 			IsFighting = stateValue;
+			fighting = stateValue;
 		}
 		
 		private void Update()

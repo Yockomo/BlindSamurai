@@ -1,4 +1,5 @@
 using Interfaces;
+using Player;
 using Services;
 using Zenject;
 
@@ -6,7 +7,7 @@ namespace Installers
 {
     public class FightingStateServiceInstaller : MonoInstaller
     {
-        public IHaveFightState heroStates;
+        public PlayerStates heroStates;
         public int startEnemyCount;
         
         public override void InstallBindings()
