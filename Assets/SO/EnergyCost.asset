@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnergyCost
   m_EditorClassIdentifier: 
   maxEnergy: 100
-  energyRestoreSpeedInSeconds: 3
+  energyRestoreSpeedInSeconds: 5
   defaultJumpCost: 2
   wallJumpCost: 10
   dashCost: 4
