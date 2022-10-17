@@ -4,6 +4,7 @@ using Interfaces;
 using ScriptableObjects;
 using Stats;
 using Systems;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using Zenject;
 
@@ -58,6 +59,8 @@ namespace Player
 		public bool fighting;
 		public bool Inactive;
 
+		public bool IsAttacking { get; private set; }
+		
 		public event Action OnJumpStateStart;
 		public event Action<int> OnWallJumpStateStart;
 
@@ -73,12 +76,6 @@ namespace Player
 			IsFacingRight = true;
 		}
 
-		public void SetFighState(bool stateValue)
-		{
-			IsFighting = stateValue;
-			fighting = stateValue;
-		}
-		
 		private void Update()
         {
 			UpdateTimers();
@@ -101,22 +98,9 @@ namespace Player
         {
 			MovementDirection = inputSystem.Movement.x;
 
-			if (MovementDirection != 0)
-            {
-				CheckDirectionToFace(MovementDirection > 0);
-			}
-
-			if (inputSystem.Dash != 0)
-			{
-				OnDashInput();
-			}
-			else if (inputSystem.Jump)
-			{
-				OnJumpInput();
-				OnJumpUpInput();
-			}
-
-			HandleInactiveState();
+			HandleMovementInputs();
+			
+			HandleAttackInputs();
         }
 
 		private void CheckCollisions()
@@ -205,12 +189,46 @@ namespace Player
 				IsSliding = false;
 		}
 		
+		private void HandleAttackInputs()
+		{
+			if (inputSystem.Fire1 && IsFighting)
+			{
+				var energyCost = InAir() ? energyData.defaultAttackCost : energyData.airAttackCost;
+				IsAttacking = energy.TryUseEnergy(energyCost);
+			}
+			else
+			{
+				IsAttacking = inputSystem.Fire1;
+			}
+
+			HandleInactiveState();
+		}
+		
 		private void HandleInactiveState()
 		{
 			Inactive = !(IsDashing || IsJumping || IsWallJumping);
 		}
 		
 		#region INPUT CALLBACKS
+
+		private void HandleMovementInputs()
+		{
+			if (MovementDirection != 0)
+			{
+				CheckDirectionToFace(MovementDirection > 0);
+			}
+
+			if (inputSystem.Dash != 0)
+			{
+				OnDashInput();
+			}
+			else if (inputSystem.Jump)
+			{
+				OnJumpInput();
+				OnJumpUpInput();
+			}
+		}
+		
 		private void OnJumpInput()
 		{
 			LastPressedJumpTime = moveData.jumpInputBufferTime;
@@ -226,14 +244,12 @@ namespace Player
         {
 	        if (isDashCooled)
             {
-	            if (IsFighting)
+	            var dashCost = InAir() ? energyData.dashCost : energyData.airDashCost;
+	            if (IsFighting && !energy.TryUseEnergy(dashCost))
 	            {
-		            var inAir = LastOnGroundTime > 0;
-		            var dashCost = inAir ? energyData.dashCost : energyData.airDashCost;
-		            if (!energy.TryUseEnergy(dashCost))
-			            return;
+					return;
 	            }
-		            
+	            
 	            DashDirection = inputSystem.Dash;
 	            StartCoroutine(DashCooldownAsync());
             }
@@ -280,7 +296,7 @@ namespace Player
 			return IsWallJumping && rigidBody.velocity.y > 0;
 		}
 
-		public bool CanSlide()
+		private bool CanSlide()
 		{
 			return LastOnWallTime > 0 && !IsJumping && !IsWallJumping && LastOnGroundTime <= 0;
 		}
@@ -302,6 +318,17 @@ namespace Player
 			IsFacingRight = !IsFacingRight;
 		}
 
+		private bool InAir()
+		{
+			return  LastOnGroundTime > 0;
+		}
+		
+		public void SetFighState(bool stateValue)
+		{
+			IsFighting = stateValue;
+			fighting = stateValue;
+		}
+		
 		#region EDITOR METHODS
 		private void OnDrawGizmosSelected()
 		{
