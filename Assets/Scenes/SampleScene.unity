@@ -941,7 +941,8 @@ Transform:
   m_LocalPosition: {x: -5.04, y: 1.22, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 979189838}
   m_Father: {fileID: 1038387883}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1146,7 +1147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 740946817}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: RightCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1209,7 +1210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 940069870}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: BottomCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1231,6 +1232,68 @@ Transform:
   m_Father: {fileID: 1942243927}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &979189837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 979189838}
+  - component: {fileID: 979189840}
+  - component: {fileID: 979189839}
+  m_Layer: 10
+  m_Name: HitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &979189838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979189837}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 686872383}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &979189839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979189837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 267d3d8f4241492eb9ee0179988a9053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+--- !u!58 &979189840
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979189837}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.2
 --- !u!1 &1038387882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1941,7 +2004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1589680463}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: LeftCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2331,7 +2394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1942243927}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Checks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2406,7 +2469,8 @@ GameObject:
   - component: {fileID: 2037771884}
   - component: {fileID: 2037771885}
   - component: {fileID: 2037771887}
-  m_Layer: 8
+  - component: {fileID: 2037771888}
+  m_Layer: 11
   m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2598,6 +2662,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b2875134d64aeb969102b94ca7c3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStates: {fileID: 2037771886}
+--- !u!114 &2037771888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037771876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc53fd7c6f6a4376a499ee444fa00ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerToDamage:
+    serializedVersion: 2
+    m_Bits: 1024
+  damage: 5
+  positionToHit: {fileID: 740946817}
+  circleRadius: 1
+  direction: {x: 0, y: 0}
+  distance: 0
+  maxDamageUnitsPerHit: 5
+  attackSpeed: 2
   playerStates: {fileID: 2037771886}
 --- !u!1 &2054718573
 GameObject:
