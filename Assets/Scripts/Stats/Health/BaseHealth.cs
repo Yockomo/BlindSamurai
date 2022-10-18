@@ -36,6 +36,6 @@ public abstract class BaseHealth
 
     public virtual bool IsDead()
     {
-        return CurrentHealth > 0;
+        return CurrentHealth <= 0;
     }
 }

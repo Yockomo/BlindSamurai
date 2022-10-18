@@ -7,7 +7,7 @@ namespace Stats.Health
         public EnemyHealth(int maxHealth) : base(maxHealth)
         {
         }
-
+            
         public override void TakeDamage(int damageValue)
         {
             base.TakeDamage(damageValue);
