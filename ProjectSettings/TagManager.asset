@@ -15,9 +15,9 @@ TagManager:
   - StencilLayer_1
   - StencilLayer_2
   - 
-  - BehindMask
-  - Mask
-  - Black
+  - Enemy
+  - Player
+  - 
   - 
   - 
   - 
