@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
   - EnemyId: 0
+    EnemyModel: {fileID: 3260983071702328604, guid: d5fd4ab518b279040a0f4315b2d617e1, type: 3}
     FightingDistance: 5
     UnitLight: {fileID: 5667488119759298113, guid: 3967d19075120304cbac7c9dc838192c, type: 3}
     MaxHealthPoints: 50

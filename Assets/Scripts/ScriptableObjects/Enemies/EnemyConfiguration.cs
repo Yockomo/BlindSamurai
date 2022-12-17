@@ -35,6 +35,7 @@ namespace ScriptableObjects.Enemies
     public struct EnemySettings
     {
         public int EnemyId;
+        public GameObject EnemyModel;
         public float FightingDistance;
         public UnitLight UnitLight;
         public int MaxHealthPoints;

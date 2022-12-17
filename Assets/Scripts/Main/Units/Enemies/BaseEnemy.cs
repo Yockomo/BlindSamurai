@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Enemies
 {
-    public abstract class BaseEnemy : MonoBehaviour, IPausable, IHaveHealth
+    public class BaseEnemy : MonoBehaviour, IPausable, IHaveHealth
     {
         public bool IsPaused { get; private set;}
                 
