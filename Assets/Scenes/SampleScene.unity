@@ -791,7 +791,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632178653}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1065,7 +1065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 2037771880}
-  enemyConfig: {fileID: 11400000, guid: 3f4c3b5bc8c400d45bdecd9e6a0b497d, type: 2}
+  enemyConfig: {fileID: 11400000, guid: c11f00e2891f6ee4b9c9be6ca28d6852, type: 2}
 --- !u!1 &740408114
 GameObject:
   m_ObjectHideFlags: 0
@@ -2127,7 +2127,6 @@ GameObject:
   - component: {fileID: 2037771881}
   - component: {fileID: 2037771886}
   - component: {fileID: 2037771884}
-  - component: {fileID: 2037771885}
   - component: {fileID: 2037771887}
   - component: {fileID: 2037771888}
   m_Layer: 11
@@ -2272,20 +2271,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveData: {fileID: 11400000, guid: eb4294b74f58e3f4499fce3e3944631e, type: 2}
   playerStates: {fileID: 2037771886}
---- !u!114 &2037771885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037771876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1179d3d15a1848e1b63cff93e146e169, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lights: {fileID: 4381141271663315448, guid: dd0a7d7dba479ff478addc6efb5ca995, type: 3}
-  unitLight: {fileID: 0}
 --- !u!114 &2037771886
 MonoBehaviour:
   m_ObjectHideFlags: 0
