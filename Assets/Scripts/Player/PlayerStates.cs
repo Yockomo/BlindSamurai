@@ -4,12 +4,12 @@ using Interfaces;
 using ScriptableObjects;
 using Stats;
 using Systems;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using Zenject;
 
 namespace Player
 {
+	[RequireComponent(typeof(Rigidbody2D))]
     public class PlayerStates : MonoBehaviour, IHaveFightState
     {
 		[Header("Checks")]

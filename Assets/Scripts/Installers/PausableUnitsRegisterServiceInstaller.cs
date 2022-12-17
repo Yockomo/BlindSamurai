@@ -8,7 +8,7 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            var service = new PausableUnitsRegisterService();
+            var service = new PausableUnitsService();
             
             Container.Bind<IPausableUnitsRegisterService>().FromInstance(service).AsSingle().NonLazy();
         }

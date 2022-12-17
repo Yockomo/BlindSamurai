@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Services
 {
-    public class PausableUnitsRegisterService : IPausableUnitsRegisterService
+    public class PausableUnitsService : IPausableUnitsRegisterService
     {
         private List<IPausable> units;
 
-        public PausableUnitsRegisterService()
+        public PausableUnitsService()
         {
             units = new List<IPausable>();
         }
@@ -21,7 +21,7 @@ namespace Services
             }
             else
             {
-                Debug.LogError($"Tried to add unit{pausableUnit} that already exist in list");
+                Debug.LogError($"Tried to add unit {pausableUnit} that already exist in list");
             }
         }
 

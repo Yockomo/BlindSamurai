@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Player
 {
-    internal class GravityController
+	internal class GravityController
     {
 		private readonly PlayerStates playerStates;
 		private readonly PlayerMoveData gravityData;

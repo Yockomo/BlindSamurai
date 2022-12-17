@@ -18,7 +18,7 @@ public abstract class BaseHealth
     public virtual void TakeDamage(int damageValue)
     {
         CurrentHealth -= damageValue;
-        Mathf.Max(CurrentHealth, 0);
+        CurrentHealth = Mathf.Max(CurrentHealth, 0);
         OnHealthChangedEvent?.Invoke(CurrentHealth);
 
         if (IsDead())
@@ -30,7 +30,7 @@ public abstract class BaseHealth
     public virtual void RestoreHealth(int healValue)
     {
         CurrentHealth += healValue;
-        Mathf.Min(CurrentHealth, MaxHealth);
+        CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
         OnHealthChangedEvent?.Invoke(CurrentHealth);
     }
 

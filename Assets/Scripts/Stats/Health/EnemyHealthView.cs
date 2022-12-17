@@ -1,4 +1,3 @@
-using System;
 using Interfaces;
 using UnityEngine;
 
@@ -8,11 +7,16 @@ namespace Stats.Health
     {
         [SerializeField] private int maxHealth;
         [SerializeField] private GameObject mainObjects;
+        
         private EnemyHealth health;
 
-        private void Start()
+        private void Awake()
         {
             health = new EnemyHealth(maxHealth);
+        }
+
+        private void OnEnable()
+        {
             health.OnDeathEvent += Disable;
         }
 
