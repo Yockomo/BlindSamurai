@@ -1,5 +1,3 @@
-
-using System;
 using Interfaces;
 using Interfaces.Pause_Interfaces;
 using ScriptableObjects.Enemies;
@@ -24,7 +22,7 @@ namespace Enemies
         
         private void Start()
         {
-            Construct(targetTransform,enemyConfig.enemySettings, pausableService, fightingStateService);
+            Construct(targetTransform,enemyConfig.GetEnemyConfig(0), pausableService, fightingStateService);
         }
     }
 }
