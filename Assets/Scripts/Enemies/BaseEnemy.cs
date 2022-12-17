@@ -1,35 +1,68 @@
-using System;
 using Interfaces;
 using Interfaces.Pause_Interfaces;
+using ScriptableObjects.Enemies;
+using Stats.Health;
 using Units;
 using UnityEngine;
 
 namespace Enemies
 {
-    public class BaseEnemy : MonoBehaviour, IPausable
+    public abstract class BaseEnemy : MonoBehaviour, IPausable, IHaveHealth
     {
         public bool IsPaused { get; private set;}
                 
-        private FightingUnit fightingUnit;
-        private UnitWithLight unitWithLight;
-                
-        public void Construct(Transform targetTransform, float fightingDistance, IFightingStateService fightingStateService,
-            UnitLight unitLight,
-            IPausableUnitsRegisterService pausableUnitsRegisterService)
+        protected FightingUnit fightingUnit;
+        protected UnitWithLight unitWithLight;
+        protected EnemyHealth enemyHealth;
+        
+        public virtual void Construct(Transform targetTransform, EnemySettings config,
+            IPausableUnitsRegisterService pausableUnitsRegisterService, IFightingStateService fightingStateService)
         {
-            fightingUnit = new FightingUnit(transform, targetTransform, fightingDistance, fightingStateService);
-            unitWithLight = new UnitWithLight(unitLight, transform);
+            fightingUnit = new FightingUnit(transform, targetTransform, config.FightingDistance, fightingStateService);
+            
+            unitWithLight = new UnitWithLight(config.UnitLight, transform);
+            
+            enemyHealth = new EnemyHealth(config.MaxHealthPoints);
+            ConfigureHealthEvent();
+            
             pausableUnitsRegisterService.Register(this);
+        }
+
+        private void OnDestroy()
+        {
+            enemyHealth.OnDeathEvent -= OffObject;
+            enemyHealth.OnDeathEvent -= fightingUnit.Disable;
         }
 
         private void Update()
         {
-            fightingUnit.CheckFightingState();
+            OnUpdate();
         }
 
+        protected virtual void OnUpdate()
+        {
+            fightingUnit.CheckFightingState();
+        }
+        
         public void SetPauseState(bool stateValue)
         {
             IsPaused = stateValue;
+        }
+
+        public BaseHealth GetHealth()
+        {
+            return enemyHealth;
+        }
+
+        protected void ConfigureHealthEvent()
+        {
+            enemyHealth.OnDeathEvent += OffObject;
+            enemyHealth.OnDeathEvent += fightingUnit.Disable;
+        }
+
+        protected void OffObject()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

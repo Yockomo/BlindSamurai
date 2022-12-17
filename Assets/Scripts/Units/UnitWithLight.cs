@@ -29,7 +29,5 @@ namespace Units
             else
                 unitLight.TurnOff();
         }
-        
-
     }
 }

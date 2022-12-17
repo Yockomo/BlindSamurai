@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace Units
 {
-    //TODO Rename class name to FightingUnit, Extract IPausable interface to head class,
-    //change logic from trigger to Vector3.Distance(this.transorm.position, player.transform.position)
     public class FightingUnit : IFighter
     {
         public event Action<IFighter> OnFightStartEvent;
@@ -39,6 +37,12 @@ namespace Units
                  inFight = false;
                  OnFightEndEvent?.Invoke(this);
             }
+        }
+
+        public void Disable()
+        {
+            inFight = false;
+            OnFightEndEvent?.Invoke(this);
         }
     }
 }
