@@ -1,3 +1,4 @@
+using Interfaces;
 using UnityEngine;
 
 namespace Units
@@ -7,12 +8,15 @@ namespace Units
         private Transform selfTransform;
         private UnitLight unitLight;
         
-        public UnitWithLight(UnitLight lights, Transform selfTransform)
+        public UnitWithLight(UnitLight lights, Transform selfTransform, FightingUnit fightingUnit)
         {
             var light = Object.Instantiate(lights);
             unitLight = light;
             SetUnitLight(selfTransform);
             TurnLight(true);
+            
+            fightingUnit.OnFightStartEvent += ScaleLightUp;
+            fightingUnit.OnFightEndEvent += ScaleLightDown;
         }
 
         private void SetUnitLight(Transform transform)
@@ -28,6 +32,16 @@ namespace Units
                 unitLight.TurnOn();
             else
                 unitLight.TurnOff();
+        }
+        
+        private void ScaleLightUp(IFighter fighter)
+        {
+            unitLight.ScaleUp();
+        }        
+        
+        private void ScaleLightDown(IFighter fighter)
+        {
+            unitLight.ScaleDown();
         }
     }
 }

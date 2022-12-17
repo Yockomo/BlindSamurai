@@ -5,12 +5,12 @@ using UnityEngine;
 namespace Units
 {
     public class FightingUnit : IFighter
-    {
+    {        
+        public bool InFight { get; private set; }   
+        
         public event Action<IFighter> OnFightStartEvent;
         public event Action<IFighter> OnFightEndEvent;
 
-        private bool inFight;        
-        
         private Transform selftTransform;
         private Transform targetTransform;
         private float figthingDistance;
@@ -27,21 +27,21 @@ namespace Units
         {
             var distance = Vector3.Distance(selftTransform.position, targetTransform.position);
             
-            if (distance < figthingDistance && !inFight)
+            if (distance < figthingDistance && !InFight)
             {
-                 inFight = true;
+                 InFight = true;
                  OnFightStartEvent?.Invoke(this);
             }
-            else if(distance > figthingDistance && inFight)
+            else if(distance > figthingDistance && InFight)
             {
-                 inFight = false;
+                 InFight = false;
                  OnFightEndEvent?.Invoke(this);
             }
         }
 
         public void Disable()
         {
-            inFight = false;
+            InFight = false;
             OnFightEndEvent?.Invoke(this);
         }
     }

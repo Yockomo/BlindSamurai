@@ -13,6 +13,7 @@ namespace Enemies
                 
         protected FightingUnit fightingUnit;
         protected UnitWithLight unitWithLight;
+        protected UnitWithMovement unitMovement;
         protected EnemyHealth enemyHealth;
         
         public virtual void Construct(Transform targetTransform, EnemySettings config,
@@ -20,7 +21,7 @@ namespace Enemies
         {
             fightingUnit = new FightingUnit(transform, targetTransform, config.FightingDistance, fightingStateService);
             
-            unitWithLight = new UnitWithLight(config.UnitLight, transform);
+            unitWithLight = new UnitWithLight(config.UnitLight, transform, fightingUnit);
             
             enemyHealth = new EnemyHealth(config.MaxHealthPoints);
             ConfigureHealthEvent();
