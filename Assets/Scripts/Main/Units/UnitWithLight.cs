@@ -22,6 +22,16 @@ namespace Units
             lightTransform.localPosition = Vector3.zero;
         }
 
+        public void LightUp()
+        {
+            unitLight.ScaleUp();
+        }
+
+        public void LightDown()
+        {
+            unitLight.ScaleDown();
+        }
+
         public void TurnLight(bool value)
         {
             if (value)

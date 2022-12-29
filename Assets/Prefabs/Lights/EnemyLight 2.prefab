@@ -510,5 +510,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleMaxValue: {x: 0.5, y: 0.5, z: 0.5}
-  timeToScale: 6
-  doScaleOverTime: 1
+  fightingTimeToScale: 0.1
+  inactiveTimeToScale: 5
+  fastScaleTime: 0.1

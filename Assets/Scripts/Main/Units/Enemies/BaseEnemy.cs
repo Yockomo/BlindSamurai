@@ -23,7 +23,8 @@ namespace Enemies
             unitWithLight = new UnitWithLight(config.UnitLight, transform);
             
             enemyHealth = new EnemyHealth(config.MaxHealthPoints);
-            ConfigureHealthEvent();
+            
+            ConfigureEvent();
             
             pausableUnitsRegisterService.Register(this);
         }
@@ -32,6 +33,16 @@ namespace Enemies
         {
             enemyHealth.OnDeathEvent -= OffObject;
             enemyHealth.OnDeathEvent -= fightingUnit.Disable;
+            fightingUnit.OnFightStartEvent -= LightUp;
+            fightingUnit.OnFightEndEvent -= LightDown;
+        }
+
+        protected void ConfigureEvent()
+        {
+            enemyHealth.OnDeathEvent += OffObject;
+            enemyHealth.OnDeathEvent += fightingUnit.Disable;
+            fightingUnit.OnFightStartEvent += LightUp;
+            fightingUnit.OnFightEndEvent += LightDown;
         }
 
         private void Update()
@@ -54,15 +65,21 @@ namespace Enemies
             return enemyHealth;
         }
 
-        protected void ConfigureHealthEvent()
-        {
-            enemyHealth.OnDeathEvent += OffObject;
-            enemyHealth.OnDeathEvent += fightingUnit.Disable;
-        }
-
         protected void OffObject()
         {
             gameObject.SetActive(false);
+        }
+
+        protected void LightUp(IFighter fighter) 
+        {
+            unitWithLight.LightUp();
+            Debug.Log(gameObject.name + " light up");
+        }
+
+        protected void LightDown(IFighter fighter) 
+        {
+            unitWithLight.LightDown();
+            Debug.Log(gameObject.name + " light down");
         }
     }
 }
