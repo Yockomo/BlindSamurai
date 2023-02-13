@@ -36,8 +36,10 @@ namespace ScriptableObjects.Enemies
     {
         public int EnemyId;
         public GameObject EnemyModel;
+        public UnitLight UnitLight;        
         public float FightingDistance;
-        public UnitLight UnitLight;
         public int MaxHealthPoints;
+        public float MoveSpeed;
+        public float StopDistance;
     }
 }

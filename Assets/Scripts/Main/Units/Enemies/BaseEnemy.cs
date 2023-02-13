@@ -1,9 +1,11 @@
+using System;
 using Interfaces;
 using Interfaces.Pause_Interfaces;
 using ScriptableObjects.Enemies;
 using Stats.Health;
 using Units;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Enemies
 {
@@ -15,11 +17,13 @@ namespace Enemies
         protected UnitWithLight unitWithLight;
         protected UnitWithMovement unitMovement;
         protected EnemyHealth enemyHealth;
-        
+
         public virtual void Construct(Transform targetTransform, EnemySettings config,
             IPausableUnitsRegisterService pausableUnitsRegisterService, IFightingStateService fightingStateService)
         {
             fightingUnit = new FightingUnit(transform, targetTransform, config.FightingDistance, fightingStateService);
+            
+            unitMovement = new UnitWithMovement(null, null, config.MoveSpeed, targetTransform, fightingUnit);
             
             unitWithLight = new UnitWithLight(config.UnitLight, transform, fightingUnit);
             

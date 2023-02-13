@@ -6,15 +6,15 @@ namespace Units
 {
     public class UnitWithMovement
     {
-        private NavMeshAgent agent;
-        private Vector3[] patrolPoints;
+        private NavMeshAgent agent;        
         private float moveSpeed;
+        
+        private Vector3[] patrolPoints;
         private Transform playerTransform;
 
         private FightingUnit fightingState;
         
         private Vector3 currentPoint;
-
         private bool isChasingHero;
 
         public UnitWithMovement(NavMeshAgent agent, Vector3[] patrolPoints, float moveSpeed, Transform playerTransform, FightingUnit fightingUnit)
@@ -54,6 +54,9 @@ namespace Units
         
         private void DetermineNewDestinationPoint()
         {
+            if (patrolPoints == null)
+                return;
+
             Move(true);
             SetSpeed(moveSpeed);
             var randomPointIndex = Random.Range(0, patrolPoints.Length);
