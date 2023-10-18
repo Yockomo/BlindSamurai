@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 8601625264745800094}
   - component: {fileID: 5667488119759298113}
   m_Layer: 0
-  m_Name: EnemyLight 2
+  m_Name: EnemyLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4347603635080084507
 Transform:
   m_ObjectHideFlags: 0
@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 3174429346268505562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -509,7 +509,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636a3be72d661a34887b852aaee3e828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleMaxValue: {x: 0.5, y: 0.5, z: 0.5}
+  minScaleValue: 0
+  maxScaleValue: 0.2
+  timeToScaleUp: 0.5
+  timeToScaleDown: 0.1
+  baseScaleTime: 0
   fightingTimeToScale: 0.1
   inactiveTimeToScale: 5
   fastScaleTime: 0.1

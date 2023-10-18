@@ -1,5 +1,6 @@
 using Interfaces;
 using Interfaces.Pause_Interfaces;
+using Main.Infrastructure.Light_System;
 using ScriptableObjects.Enemies;
 using Stats.Health;
 using Units;
@@ -10,20 +11,17 @@ namespace Enemies
     public class BaseEnemy : MonoBehaviour, IPausable, IHaveHealth
     {
         public bool IsPaused { get; private set;}
-                
+
         protected FightingUnit fightingUnit;
-        protected UnitWithLight unitWithLight;
         protected EnemyHealth enemyHealth;
         
         public virtual void Construct(Transform targetTransform, EnemySettings config,
             IPausableUnitsRegisterService pausableUnitsRegisterService, IFightingStateService fightingStateService)
         {
             fightingUnit = new FightingUnit(transform, targetTransform, config.FightingDistance, fightingStateService);
-            
-            unitWithLight = new UnitWithLight(config.UnitLight, transform);
-            
             enemyHealth = new EnemyHealth(config.MaxHealthPoints);
-            
+
+            ConfigureLight(config);
             ConfigureEvent();
             
             pausableUnitsRegisterService.Register(this);
@@ -33,16 +31,19 @@ namespace Enemies
         {
             enemyHealth.OnDeathEvent -= OffObject;
             enemyHealth.OnDeathEvent -= fightingUnit.Disable;
-            fightingUnit.OnFightStartEvent -= LightUp;
-            fightingUnit.OnFightEndEvent -= LightDown;
         }
 
+        protected void ConfigureLight(EnemySettings config)
+        {
+            var light = Instantiate(config.UnitLight);
+            if(TryGetComponent<LightMangaer> (out LightMangaer manager))
+                manager.SetLight(light);
+        }
+        
         protected void ConfigureEvent()
         {
             enemyHealth.OnDeathEvent += OffObject;
             enemyHealth.OnDeathEvent += fightingUnit.Disable;
-            fightingUnit.OnFightStartEvent += LightUp;
-            fightingUnit.OnFightEndEvent += LightDown;
         }
 
         private void Update()
@@ -68,18 +69,6 @@ namespace Enemies
         protected void OffObject()
         {
             gameObject.SetActive(false);
-        }
-
-        protected void LightUp(IFighter fighter) 
-        {
-            unitWithLight.LightUp();
-            Debug.Log(gameObject.name + " light up");
-        }
-
-        protected void LightDown(IFighter fighter) 
-        {
-            unitWithLight.LightDown();
-            Debug.Log(gameObject.name + " light down");
         }
     }
 }

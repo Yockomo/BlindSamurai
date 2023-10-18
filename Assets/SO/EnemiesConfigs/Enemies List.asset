@@ -18,3 +18,8 @@ MonoBehaviour:
     FightingDistance: 5
     UnitLight: {fileID: 5667488119759298113, guid: 3967d19075120304cbac7c9dc838192c, type: 3}
     MaxHealthPoints: 50
+  - EnemyId: 1
+    EnemyModel: {fileID: 3260983071702328604, guid: 36ba0af63dfe7ba40b3b07449200507c, type: 3}
+    FightingDistance: 5
+    UnitLight: {fileID: 5667488119759298113, guid: f3589b2398f04294c92b24bc046ea308, type: 3}
+    MaxHealthPoints: 50

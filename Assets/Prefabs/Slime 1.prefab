@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3260983071702328608}
   - component: {fileID: 7251438408963238970}
   m_Layer: 10
-  m_Name: Slime
+  m_Name: Slime 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 3260983071702328604}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 52c069929a841b240933956ba7b4748c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6b094c0772081fb4589cd12a2c59e83b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
